@@ -46,4 +46,32 @@ nnoremap <buffer> <localleader>see mpoexit 9999 //!!rm<cr><esc>'p
 " replace 'xx' in the current line with ...
 nnoremap <buffer> <localleader>xx :s/xx/
 
+" Folding
+function! StataFolds()
+    let line = getline(v:lnum)
+    let nline = getline(v:lnum+1)
+    let nnline = getline(v:lnum+2)
+    if match(line, '^\*.*-$') >= 0
+        return ">2"
+    elseif match(line,'^\*\+$') >= 0 && match(nline,'^\*')>=0 && match(nnline,'^\*\+$')>=0
+        return ">1"
+    else
+        return "="
+    endif
+endfunction
+
+function! StataFoldsText()
+    let foldlength = v:foldend-v:foldstart
+    let text=""
+    if v:foldlevel==1
+        let text=getline(v:foldstart+1)
+    else
+        let text=getline(v:foldstart)
+    endif
+    return "[".v:foldlevel."] ".text." (".foldlength." lines)"
+endfunction
+setlocal foldmethod=expr
+setlocal foldexpr=StataFolds()
+setlocal foldtext=StataFoldsText()
+
 " end: ftplugin/stata.vim
