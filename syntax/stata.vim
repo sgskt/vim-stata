@@ -15,12 +15,12 @@ syntax case match
 
 " comments - single line
 " note that the triple slash continuing line comment comes free
-syn region stataStarComment  start=/^\s*\*/ end=/$/    contains=stataComment oneline
-syn region stataSlashComment start="\s//"   end=/$/    contains=stataComment oneline
-syn region stataSlashComment start="\s///"   end=/$/   contains=stataComment oneline
-syn region stataSlashComment start="^//"    end=/$/    contains=stataComment oneline
+syn region stataStarComment  start=/^\s*\*/ end=/$/    contains=stataComment,stataTodo oneline
+syn region stataSlashComment start="\s//"   end=/$/    contains=stataComment,stataTodo oneline
+syn region stataSlashComment start="\s///"   end=/$/   contains=stataComment,stataTodo oneline
+syn region stataSlashComment start="^//"    end=/$/    contains=stataComment,stataTodo oneline
 " comments - multiple line
-syn region stataComment      start="/\*"    end="\*/"  contains=stataComment
+syn region stataComment      start="/\*"    end="\*/"  contains=stataComment,stataTodo
 
 " global macros - simple case
 syn match  stataGlobal /\$\a\w*/
@@ -403,6 +403,8 @@ syn region stataFunc matchgroup=Function start=/\<sweep(/ end=/)/ contains=@stat
 syn region stataFunc matchgroup=Function start=/\<vec(/ end=/)/ contains=@stataFuncGroup
 syn region stataFunc matchgroup=Function start=/\<vecdiag(/ end=/)/ contains=@stataFuncGroup
 
+" TODO keywords
+syn keyword stataTodo contained TODO FIXME NOTE
 " Errors to catch
 " taken from $VIMRUNTIME/syntax/c.vim 
 " catch errors caused by wrong parenthesis, braces and brackets
@@ -415,7 +417,6 @@ syn match	stataBraceError	/}/
 syn match	stataErrInParen	contained /[\]}]/
 syn match	stataErrInBracket	contained /[)}]/
 syn match	stataErrInBrace	contained /[)\]]/
-
 " assign highlight groups
 hi def link stataBraceError	stataError
 hi def link stataBracketError	stataError
@@ -432,6 +433,7 @@ hi def link stataStarComment	stataComment
 
 hi def link stataCommand	Define
 hi def link stataComment	Comment
+hi def link stataTodo Todo
 hi def link stataConditional	Conditional
 hi def link stataError		Error
 hi def link stataFunc		None
